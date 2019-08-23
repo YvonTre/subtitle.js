@@ -95,7 +95,7 @@ function toMS(timestamp) {
     return timestamp;
   }
 
-  var match = timestamp.match(/^(?:(\d{2,}):)?(\d{2}):(\d{2})[,.](\d{3})$/);
+  var match = timestamp.match(/^(?:(\d{2,}):)?(\d{2}):(\d{2})[,.](\d{3}).*$/);
 
   if (!match) {
     throw new Error('Invalid SRT or VTT time format: "' + timestamp + '"');
@@ -152,27 +152,18 @@ function toSrtTime(timestamp) {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/**
- * Given a number, return a zero-filled string.
- * From http://stackoverflow.com/questions/1267283/
- * @param  {number} width
- * @param  {number} number
- * @return {string}
- */
-module.exports = function zeroFill (width, number, pad) {
-  if (number === undefined) {
-    return function (number, pad) {
-      return zeroFill(width, number, pad)
-    }
-  }
-  if (pad === undefined) pad = '0'
-  width -= number.toString().length
-  if (width > 0) return new Array(width + (/\./.test(number) ? 2 : 1)).join(pad) + number
-  return number + ''
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = zeroFill;
+function zeroFill(width, number, pad) {
+  return number.toFixed().padStart(width, pad || '0');
 }
-
 
 /***/ }),
 /* 3 */
@@ -238,7 +229,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @type {RegExp}
  */
 
-var RE = /^((?:\d{2,}:)?\d{2}:\d{2}[,.]\d{3}) --> ((?:\d{2,}:)?\d{2}:\d{2}[,.]\d{3})(?: (.*))?$/;
+var RE = /^((?:\d{2,}:)?\d{2}:\d{2}[,.]\d{3}\S*) --> ((?:\d{2,}:)?\d{2}:\d{2}[,.]\d{3}\S*)(?: (.*))?$/;
 
 /**
  * parseTimestamps
